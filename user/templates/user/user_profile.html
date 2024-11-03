@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}профиль - заказы{% endblock %}
+
+{% block content %}
+<div class="row">
+<div class="col-12 col-md-5 mb-4 me-auto ms-auto">
+    <h2 class="h2 mb-4">Профиль</h2>
+    <noindex>
+    <form method="post"  action="{% url 'user:profile' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+        {% for f in form %}
+        <div class="mb-3">
+            <label class="form-label" for="{{ f.id_for_label }}">{{f.label}}:</label>
+            {{ f }}</div>
+        <div class="form-error">{{ f.errors }}</div>
+        {% endfor %}    
+        <div class="mb-3">
+            <button style="width: 100%;" class="btn btn-lg btn-secondary" type="submit">
+             Сохранить
+            </button>
+        </div>
+    </form>
+    </noindex>
+</div>
+</div>
+{% endblock %}
