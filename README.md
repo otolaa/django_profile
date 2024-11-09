@@ -5,3 +5,9 @@
 /user/register/
 /user/profile/
 ```
+
+## user password reset
+
+```
+/user/password-reset/
+```
