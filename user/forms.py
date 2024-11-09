@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth import get_user_model
 from django.forms.widgets import ClearableFileInput
 
@@ -34,7 +34,7 @@ class ProfileUserForm(forms.ModelForm):
     username = forms.CharField(disabled=True, label='Логин', widget=forms.TextInput(attrs={'class': 'form-control form-control-lg'}))
     email = forms.CharField(disabled=True, label='E-mail', widget=forms.TextInput(attrs={'class': 'form-control form-control-lg'}))
     photo = forms.ImageField(label='Аватар', required=False, widget=CustomClearableFileInput(attrs={'class': 'form-control form-control-lg'}))
-  
+
     class Meta:
         model = get_user_model()
         fields = ['photo', 'username', 'email', 'date_birth', 'first_name', 'last_name', 'telegram', 'vk', 'twitter']
@@ -70,14 +70,10 @@ class UserRegisterForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         """ Обновление стилей формы регистрации """
         super().__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['required'] = True
+        
         for field in self.fields:
-            self.fields['username'].widget.attrs.update({"placeholder": 'Придумайте свой логин'})
-            self.fields['email'].widget.attrs.update({"placeholder": 'Введите свой email'})
-            self.fields['email'].widget.attrs['required'] = 'required'
-            self.fields['first_name'].widget.attrs.update({"placeholder": 'Ваше имя'})
-            self.fields["last_name"].widget.attrs.update({"placeholder": 'Ваша фамилия'})
-            self.fields['password1'].widget.attrs.update({"placeholder": 'Придумайте свой пароль'})
-            self.fields['password2'].widget.attrs.update({"placeholder": 'Повторите придуманный пароль'})
+            self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
             self.fields[field].widget.attrs.update({"class": "form-control form-control-lg", "autocomplete": "off"})
 
 class UserLoginForm(AuthenticationForm):
@@ -86,9 +82,33 @@ class UserLoginForm(AuthenticationForm):
         """ Обновление стилей формы регистрации """
         super().__init__(*args, **kwargs)
         for field in self.fields:
-            self.fields['username'].widget.attrs['placeholder'] = 'Логин пользователя'
-            self.fields['password'].widget.attrs['placeholder'] = 'Пароль пользователя'
-            self.fields['username'].label = 'Логин'
+            self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control form-control-lg',
+                'autocomplete': 'off'
+            })
+
+
+class UserForgotPasswordForm(PasswordResetForm):
+    """ request for password recovery """
+
+    def __init__(self, *args, **kwargs):
+        """ new style """
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['placeholder'] = self.fields[field].label
+            self.fields[field].widget.attrs.update({
+                'class': 'form-control form-control-lg',
+                'autocomplete': 'off'
+            })
+
+class UserSetNewPasswordForm(SetPasswordForm):
+    """ Изменение пароля пользователя после подтверждения """
+
+    def __init__(self, *args, **kwargs):
+        """ new style """
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
             self.fields[field].widget.attrs.update({
                 'class': 'form-control form-control-lg',
                 'autocomplete': 'off'

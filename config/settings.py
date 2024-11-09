@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'W-SU'
 USE_I18N = True
-USE_TZ = True 
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -140,3 +141,20 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'user.authentication.EmailAuthBackend',
 ]
+
+SITE_ID = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = "my-mail@yandex.ru"
+EMAIL_HOST_PASSWORD = ""
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+TO_EMAIL_USER_LIST = ['my-mail@yandex.ru']

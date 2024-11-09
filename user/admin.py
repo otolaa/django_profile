@@ -5,5 +5,5 @@ from user.models import User
  
 admin.site.register(User, UserAdmin)
 
-admin.site.site_title = "_@@_ 0.1.0v"
-admin.site.site_header = "_@@_ 0.1.0v"
+admin.site.site_title = "DP 0.1.0v"
+admin.site.site_header = "DP 0.1.0v"
